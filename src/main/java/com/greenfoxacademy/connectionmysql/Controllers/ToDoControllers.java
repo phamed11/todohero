@@ -1,7 +1,7 @@
 package com.greenfoxacademy.connectionmysql.Controllers;
 
 import com.greenfoxacademy.connectionmysql.Models.ToDo;
-import com.greenfoxacademy.connectionmysql.Respositories.ToDoRespository;
+import com.greenfoxacademy.connectionmysql.Respositories.ToDoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,19 +14,19 @@ import java.util.List;
 @RequestMapping("/todo")
 public class ToDoControllers {
 
-  private ToDoRespository toDoRespository;
+  private ToDoRepository toDoRepository;
 
   @Autowired
-  public ToDoControllers(ToDoRespository toDoRespository) {
-    this.toDoRespository = toDoRespository;
+  public ToDoControllers(ToDoRepository toDoRepository) {
+    this.toDoRepository = toDoRepository;
   }
 
   @GetMapping(value = {"/", "/list"})
   public String list(Model model, @RequestParam(value = "isActive", required = false) Boolean result) {
     if (result == null) {
-      model.addAttribute("todos", toDoRespository.findAll());
+      model.addAttribute("todos", toDoRepository.findAll());
     } else {
-      model.addAttribute("todos", toDoRespository.findByDone(!result));
+      model.addAttribute("todos", toDoRepository.findByDone(!result));
     }
     return "todolist";
   }
@@ -39,26 +39,26 @@ public class ToDoControllers {
   @PostMapping("/add")
   public String todoPost(@RequestParam(value = "name") String title,
                          @ModelAttribute(value = "urgent") boolean urgent) {
-    toDoRespository.save(new ToDo(title, urgent, false));
+    toDoRepository.save(new ToDo(title, urgent, false));
     return "redirect:/todo/";
   }
 
 
   @GetMapping("/{id}/delete")
   public String delete(@PathVariable(value = "id") Long idToDelete) {
-    toDoRespository.deleteById(idToDelete);
+    toDoRepository.deleteById(idToDelete);
     return "redirect:/todo/";
   }
 
   @GetMapping("/{id}/edit")
   public String getEdit(@ModelAttribute(value = "id") Long id, Model model) {
-    model.addAttribute("toDo", toDoRespository.findById(id).get());
+    model.addAttribute("toDo", toDoRepository.findById(id).get());
     return "edit";
   }
 
   @PostMapping("/{id}/edit")
   public String edit(@ModelAttribute(value = "toDo") ToDo todo) {
-    toDoRespository.save(todo);
+    toDoRepository.save(todo);
     return "redirect:/todo/";
   }
 
@@ -66,9 +66,9 @@ public class ToDoControllers {
   @GetMapping("/search")
   public String searchBar(@ModelAttribute(value = "search") String search, Model model) {
     List<ToDo> searchResult = new ArrayList<>();
-    for (int i = 0; i < toDoRespository.count(); i++) {
-      if (toDoRespository.findAll().get(i).getTitle().toLowerCase().contains(search.toLowerCase())) {
-        searchResult.add(toDoRespository.findAll().get(i));
+    for (int i = 0; i < toDoRepository.count(); i++) {
+      if (toDoRepository.findAll().get(i).getTitle().toLowerCase().contains(search.toLowerCase())) {
+        searchResult.add(toDoRepository.findAll().get(i));
       }
     }
     model.addAttribute("todos", searchResult);
