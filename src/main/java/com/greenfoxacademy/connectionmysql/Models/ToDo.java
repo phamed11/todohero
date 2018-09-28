@@ -1,4 +1,4 @@
-package com.greenfoxacademy.connectionmysql.Models;
+package com.greenfoxacademy.connectionmysql.models;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +20,7 @@ public class ToDo {
 
   public ToDo() {
   }
+
 
   public ToDo(String title, boolean isUrgent, boolean done) {
     this.title = title;

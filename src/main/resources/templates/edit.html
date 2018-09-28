@@ -10,21 +10,21 @@
             background-color: darkgrey;
         }
     </style>
+
 </head>
 <body class="container" >
 
 <form action="#" th:action="'/todo/' + ${toDo.id} + '/edit'"  style="font-family: 'Courier New';" method="post" th:object="${toDo}">
     <h2 style="font-weight: bolder" align="center">Edit todo</h2>
     <label for="text">New description</label>
-   <input th:type="text" id="text" th:field="*{title}" size="50px"><br>
+    <input th:type="text" id="text" th:field="*{title}" size="50px"><br>
     <label for="urgent">Is it urgent? </label>
     <input th:type="checkbox" id="urgent" th:field="*{urgent}"><br>
     <label for="done">Is it done? </label>
-     <input th:type="checkbox" id="done" th:field="*{done}"><br>
-     <input th:type="hidden" th:field="*{date}"><br>
+    <input th:type="checkbox" id="done" th:field="*{done}"><br>
+    <input th:type="hidden" th:field="*{date}"><br>
     <input class="btn btn-success" role="button" th:type="submit">
     <a href="/todo/" class="btn btn-danger" type="submit">Cancel</a>
-
 </form>
 
 <script src="webjars/jquery/1.11.1/jquery.min.js"></script>
